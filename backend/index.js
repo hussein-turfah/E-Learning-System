@@ -6,6 +6,10 @@ app.use(express.json())
 const auth_router = require("./routes/auth.routes")
 app.use('/auth', auth_router)
 
+const course_router = require("./routes/course.route")
+app.use('/course', course_router)
+
+
 app.listen(process.env.PORT,(err)=>{
   if (err) console.error(err)
   console.log("Server is up and running on port", process.env.PORT)
