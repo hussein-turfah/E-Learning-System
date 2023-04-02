@@ -12,6 +12,8 @@ app.use('/course', course_router)
 const enrollment_router = require("./routes/enrollment.route")
 app.use('/enroll', enrollment_router)
 
+const file_router = require("./routes/file.route")
+app.use('/file', file_router)
 
 app.listen(process.env.PORT,(err)=>{
   if (err) console.error(err)
