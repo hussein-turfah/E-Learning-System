@@ -1,11 +1,11 @@
 const mongoose = require ("mongoose")
 
 const courseSchema = new mongoose.Schema({
-  Name:{
+  name:{
     type: String,
     required: true,
     unique: true
-  },CRN:{
+  },crn:{
     type: Number,
     required: true,
     unique: true
