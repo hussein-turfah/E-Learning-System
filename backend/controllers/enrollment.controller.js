@@ -1,6 +1,6 @@
 const Enrollment = require("../models/enrollmentModel")
 const User = require("../models/userModel")
-const Course = require("../models/courseModel") 
+const Course = require("../models/courseModel"); 
 
 
 exports.enroll = async (req,res)=>{
@@ -26,3 +26,11 @@ exports.enroll = async (req,res)=>{
 
   res.status(201).json({message:"Enrolled Successfully"})
 }
+exports.listEnrolledUsers = async (req, res) => {
+
+  const {courseId} = req.body
+  const enrolled_users = await Enrollment.find({courseId});
+  const active_users = enrolled_users.filter(Enrollment => Enrollment.status!="dropped")
+
+  res.status(200).json(active_users)
+};
