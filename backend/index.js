@@ -9,6 +9,9 @@ app.use('/auth', auth_router)
 const course_router = require("./routes/course.route")
 app.use('/course', course_router)
 
+const enrollment_router = require("./routes/enrollment.route")
+app.use('/enroll', enrollment_router)
+
 
 app.listen(process.env.PORT,(err)=>{
   if (err) console.error(err)
