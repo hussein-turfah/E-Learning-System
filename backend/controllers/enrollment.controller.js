@@ -5,11 +5,14 @@ const Course = require("../models/courseModel");
 
 exports.enroll = async (req,res)=>{
 
-  const{courseId, userId} = req.body;
-  const course = await Course.findById(courseId);
-  const user = await User.findById(userId);
-  
-  if(!course||!user) return res.status(404).json({message:"Course and/or User not found!"})
+  const{courseId} = req.body;
+  const userId = req.user._id;
+  let course;
+  try{
+    course = await Course.findById(courseId)
+  }catch{
+    return res.status(404).json({message:"Course not found!"})
+  }
   
   const user_enroll = await Enrollment.findOne({userId, courseId })  
   if(user_enroll) return res.status(409).json({message:"User is already enrolled in this course!"})
@@ -18,7 +21,7 @@ exports.enroll = async (req,res)=>{
   const enrollment = new Enrollment({
     userId:userId,
     courseId:courseId,
-    userEmail: user.email,
+    userEmail: req.user.email,
     courseCrn: course.crn
   });
   
