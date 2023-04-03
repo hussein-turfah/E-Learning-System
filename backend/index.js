@@ -2,6 +2,8 @@ const express = require ("express");
 const app = express();
 require ("dotenv").config()
 app.use(express.json())
+const cluster = require("cluster")
+const OS = require("os")
 const { authMiddleware } = require("./middlewares/auth.middleware");
 
 
@@ -22,9 +24,15 @@ app.use('/file', authMiddleware, file_router)
 const withdraw_router = require("./routes/withdraw.route");
 app.use('/withdraw', authMiddleware, withdraw_router)
 
-app.listen(process.env.PORT,(err)=>{
-  if (err) console.error(err)
-  console.log("Server is up and running on port", process.env.PORT)
-  require ("./config/db.config")
-
-})
+if(cluster.isMaster){
+  const cpus_number = OS.cpus().length
+  for(let i = 0; i<cpus_number;i++){
+    cluster.fork()
+  }
+}else{
+  app.listen(process.env.PORT,(err)=>{
+    if (err) console.error(err)
+    console.log(`Worker ${process.pid} is up and running on port`, process.env.PORT)
+    require ("./config/db.config")
+  })
+}
