@@ -3,6 +3,8 @@ const app = express();
 require ("dotenv").config()
 app.use(express.json())
 
+app.use('/public', express.static('./public'));
+
 const auth_router = require("./routes/auth.routes")
 app.use('/auth', auth_router)
 
