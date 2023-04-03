@@ -19,6 +19,9 @@ app.use('/enroll', authMiddleware, enrollment_router)
 const file_router = require("./routes/file.route");
 app.use('/file', authMiddleware, file_router)
 
+const withdraw_router = require("./routes/withdraw.route");
+app.use('/withdraw', authMiddleware, withdraw_router)
+
 app.listen(process.env.PORT,(err)=>{
   if (err) console.error(err)
   console.log("Server is up and running on port", process.env.PORT)
